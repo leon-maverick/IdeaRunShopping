@@ -23,7 +23,7 @@ class Product (models.Model):
     title = models.CharField(max_length=100)
     price = models.IntegerField()
     description = models.TextField()
-    pic = models.FileField()
+    pic = models.FileField(blank=True)
     cat= models.ForeignKey(Category)
     available = models.IntegerField()
 
@@ -36,8 +36,7 @@ class Order (models.Model):
             ("C", "Cancel"),
             ("H", "Handeling"))
 
-    person = models.ForeignKey('auth.User', related_name='orders',
-                               on_delete=models.CASCADE )
+    person = models.ForeignKey('auth.User', related_name='orders',)
     date = models.DateField(auto_now_add=True)
     products = models.ManyToManyField(Product) #TODO a reD MANY TO MANAY DOC ANF ITS TABLE
     status = models.CharField(max_length=1, choices=STAT,default='P')
@@ -46,10 +45,28 @@ class Order (models.Model):
     def __str__(self):
         return str(self.person.username) +" " +self.status
 
-    #def save(self, force_insert=False, force_update=False, using=None,update_fields=None):
+    def __init__(self, *args, **kwargs):
+        super(Order, self).__init__(*args, **kwargs)
+        self.__original_status = self.status
+
+    def save(self, force_insert=False, force_update=False, *args, **kwargs):
+        if self.status=="D" and self.__original_status=="P" :
+            print("It is Done")
+            for p in (self.products.all()):
+                p.available = p.available - 1
+                p.save()
+
+        elif self.status=="C" and self.__original_status=="D" :
+            print("Canceled")
+            for p in (self.products.all()):
+                p.available = p.available + 1
+                p.save()
+
+        return super().save(force_insert=force_insert,force_update=force_update,*args,**kwargs)
 
     def get_sum(self):
+
         sum = 0
-        for items in self.products:
+        for items in self.products.all():
             sum = sum + items.price
         return sum

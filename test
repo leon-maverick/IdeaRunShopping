@@ -1,0 +1,68 @@
+SIGN UP
+==============================
+http POST 127.0.0.1:8000/shop/SignUp/ username='mehrnooshi' password='belah99belah' email='mehrnoosh@gmail.com' first_name='mehrnoosh' last_name='baratpoor'
+
+
+LOGIN
+===================================
+http POST 127.0.0.1:8000/api-auth/  username='mehrnooshi' password='belah99belah' 
+ return:
+{
+    "token": "2370f6fa698dc51e6eacec72f983bf6a083a9f39"
+}
+
+
+PRODUCT LISTS
+===========================
+http GET  127.0.0.1:8000/shop/PLists/
+
+
+GET ORDER LISTS OF SPECIFIC USER
+==================================
+http GET  127.0.0.1:8000/shop/MyOrders/  'Authorization: Token 2370f6fa698dc51e6eacec72f983bf6a083a9f39'
+
+USER ORDERS PRODUCTS
+==================================
+http POST 127.0.0.1:8000/shop/MyOrders/  products = [] 'Authorization: Token 2370f6fa698dc51e6eacec72f983bf6a083a9f39'
+
+SEE CATEGORY LISTS
+==================================
+http GET  127.0.0.1:8000/shop/CatLists/ 
+
+
+PRODUCTS OF SPECEFIC CATEGORY
+========================================
+http GET  127.0.0.1:8000/shop/CatProduct/ cat='Digital' 'Authorization: Token 2370f6fa698dc51e6eacec72f983bf6a083a9f39'
+
+SEARCH ON A PRODUCT NAME
+============================================
+http GET  127.0.0.1:8000/shop/SearchProduct/ title='Red' 'Authorization: Token 2370f6fa698dc51e6eacec72f983bf6a083a9f39'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -6,7 +6,8 @@ from rest_framework.validators import UniqueValidator
 
 class ProductListingField(serializers.RelatedField):
     def to_representation(self, value):
-        return 'Product %s: %d (%s)' % (value.title, value.price, value.cat)
+        return 'Product %s: %d (%s) [description: %s]' % (value.title,
+                                                          value.price, value.cat, value.description)
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -21,19 +22,30 @@ class CategorySerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ('title', 'cat', 'price', 'available', 'description', 'available')
+        fields = ('title', 'cat', 'price', 'available', 'description', 'available', 'pic')
 
 
 class OrderSerializer(serializers.ModelSerializer):
-    queryset = Product.objects.all()
+    # queryset = Product.objects.filter(available__gt=0)
 
-    # products = ProductListingField(many=True,queryset=queryset )
+    def validate(self, attr):
+        for p in attr['products']:
+            if p.available <= 0:
+                raise serializers.ValidationError(p.title + " is not available")
+        return attr
+
     class Meta:
         model = Order
-        fields = ('date', 'products', 'status', )
+        fields = ('date', 'products', 'status',)
         extra_kwargs = {
             'date': {'read_only': True},
         }
+
+    def create(self, validated_data):
+        validated_data['person'] = self.person
+        validated_data['status'] = self.status
+        print(validated_data)
+        return super().create(validated_data)
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -51,7 +63,13 @@ class UserSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = User.objects.create_user(validated_data['username'], validated_data['email'],
-                                        validated_data['password'],)
+                                        validated_data['password'], )
+        print(validated_data)
+        print(validated_data['first_name'])
+
+        user.first_name = validated_data['first_name']
+        user.last_name = validated_data['last_name']
+        user.save()
         return user
 
     class Meta:

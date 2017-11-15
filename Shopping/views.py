@@ -2,7 +2,7 @@ from .models import Product, Order, Category
 from .serializers import ProductSerializer, OrderSerializer, CategorySerializer
 from rest_framework.views import APIView
 from rest_framework import generics
-# from django.http import request
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .serializers import UserSerializer
 from rest_framework import permissions
 from .permissions import IsOwnerOrReadOnly
@@ -13,7 +13,7 @@ from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-
+from django.views import generic
 
 @api_view(['GET'])
 def SearchProduct(request):
@@ -29,7 +29,7 @@ def CatProductList(request):
     query = request.data
     queryset = Product.objects.filter(cat__title__contains=query['cat'])
     serializer_class = ProductSerializer(queryset, many=True)
-    permission_classes = []  # (permissions.IsAuthenticatedOrReadOnly)
+    permission_classes = []
     return Response(serializer_class.data)
 
 
@@ -41,13 +41,12 @@ class CategoryList(generics.ListCreateAPIView):
 
 class SignUpView(APIView):
     permission_classes = []
-
     def post(self, request, format='json'):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
             if user:
-                token = Token.objects.create(user=user)
+                token = Token.objects.get_or_create(user=user)
                 json = serializer.data
                 json['token'] = token.key
                 print(json['token'])
@@ -55,6 +54,8 @@ class SignUpView(APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class MyOrdersUpdate(generic.UpdateView):
+    pass
 
 class MyOrderList(generics.ListCreateAPIView):
     serializer_class = OrderSerializer
@@ -65,8 +66,10 @@ class MyOrderList(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         print(self.request.user)
-        serializer.save(person=self.request.user, status="P")
-
+        serializer.person = self.request.user
+        serializer.status = "P"
+        # serializer.save(person=self.request.user, status="P")
+        super().perform_create(serializer)
 
 class ProductList(generics.ListCreateAPIView):
     queryset = Product.objects.filter(available__gt=0)
