@@ -4,6 +4,7 @@ from .models import Product, Order, Category
 from rest_framework.validators import UniqueValidator
 
 
+#todo unused class
 class ProductListingField(serializers.RelatedField):
     def to_representation(self, value):
         return 'Product %s: %d (%s) [description: %s]' % (value.title,
@@ -20,6 +21,8 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    # todo when sending product data, send the category (cat) as a json, not just id.
+    # i would want to see the category name alongside the product data
     class Meta:
         model = Product
         fields = ('title', 'cat', 'price', 'available', 'description', 'available', 'pic')
@@ -28,6 +31,8 @@ class ProductSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
     # queryset = Product.objects.filter(available__gt=0)
 
+
+    # todo it's minor thing, but always put the class Meta before all the methods, then validators, then other methods
     def validate(self, attr):
         for p in attr['products']:
             if p.available <= 0:

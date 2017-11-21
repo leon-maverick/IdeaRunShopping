@@ -15,18 +15,29 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.views import generic
 
+
 @api_view(['GET'])
 def SearchProduct(request):
+    # todo i recommend to use generics classes for all views
+    # todo bug in here
     query = request.data
+
+    # todo you need to put an error handling system here. What if user doesn't end a "title" key?
     queryset = Product.objects.filter(title__contains=query['title'])
     serializer_class = ProductSerializer(queryset, many=True)
+
+    # todo permission_classes attribute is for django rest view classes, but youre using it on normal django view function.
+    # this permission_classes are naturally ignored
     permission_classes = []  # (permissions.IsAuthenticatedOrReadOnly)
+
     return Response(serializer_class.data)
 
 
 @api_view(['GET'])
 def CatProductList(request):
+    # todo bug in here
     query = request.data
+
     queryset = Product.objects.filter(cat__title__contains=query['cat'])
     serializer_class = ProductSerializer(queryset, many=True)
     permission_classes = []
@@ -41,6 +52,7 @@ class CategoryList(generics.ListCreateAPIView):
 
 class SignUpView(APIView):
     permission_classes = []
+
     def post(self, request, format='json'):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
@@ -48,14 +60,19 @@ class SignUpView(APIView):
             if user:
                 token = Token.objects.get_or_create(user=user)
                 json = serializer.data
+                # todo bug in here. read about get_or_create to fix it
                 json['token'] = token.key
+
+                # todo always remove all "print" commands before committing
                 print(json['token'])
                 return Response(json, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 class MyOrdersUpdate(generic.UpdateView):
     pass
+
 
 class MyOrderList(generics.ListCreateAPIView):
     serializer_class = OrderSerializer
@@ -70,6 +87,7 @@ class MyOrderList(generics.ListCreateAPIView):
         serializer.status = "P"
         # serializer.save(person=self.request.user, status="P")
         super().perform_create(serializer)
+
 
 class ProductList(generics.ListCreateAPIView):
     queryset = Product.objects.filter(available__gt=0)

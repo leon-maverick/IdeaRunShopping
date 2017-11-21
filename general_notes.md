@@ -1,0 +1,3 @@
+# todo it's highly important that you use gitignore for your repository, so you don't commit database files, or media files, ...
+# todo read about gitignore. you don't have to write a gitignore file yourself, you can find a template for any kind of project 9including django)
+# todo always use small commits for each part of your work (e.g. adding a method, fixing a bug, etc), and always put short and readable messages
