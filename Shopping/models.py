@@ -14,8 +14,11 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
 
 
 class Category(models.Model):
-    # todo always add "verbose_name" to your model fields. read about it on django docs
-    title = models.CharField(max_length=50)
+    # //todo always add "verbose_name" to your model fields. read about it on django docs
+    title = models.CharField(max_length=50, verbose_name='related category')
+
+    class Meta:
+        verbose_name_plural = 'categories'
 
     def __str__(self):
         return self.title
@@ -26,15 +29,18 @@ class Product(models.Model):
     price = models.IntegerField()
     description = models.TextField()
     # todo why not ImageField?
-    # todo not "picture"? it's not like we're charged by characters used :D using full words increases code readability
+    # todo not "picture"? it's not like we're charged by characters used :D
+    # using full words increases code readability
     pic = models.FileField(blank=True)
-    # todo we should always define the "related_name" for relational fields (fk, m2m).
-    cat = models.ForeignKey(Category)
+    # //todo we should always define the "related_name" for relational fields (fk, m2m).
+    cat = models.ForeignKey(Category, related_name='category')
     available = models.IntegerField()
 
     def __str__(self):
         return self.title + " " + self.cat.title
 
+    def cat_title(self):
+        return self.cat.title
 
 class Order(models.Model):
     STAT = (("P", "Pending"),
@@ -47,18 +53,16 @@ class Order(models.Model):
     products = models.ManyToManyField(Product)  # TODO a reD MANY TO MANAY DOC ANF ITS TABLE
     status = models.CharField(max_length=1, choices=STAT, default='P')
 
-    # sum = get_sum()
-
     def __str__(self):
-        # todo it's better to show the status word (e.g. Pending) instead of the key. It'll be much more readable
-        return str(self.person.username) + " " + self.status
+        # //todo it's better to show the status word (e.g. Pending) instead of the key. It'll be much more readable
+        return str(self.person.username) + " " + self.status.title()
 
     def __init__(self, *args, **kwargs):
         super(Order, self).__init__(*args, **kwargs)
         self.__original_status = self.status
 
     def save(self, force_insert=False, force_update=False, *args, **kwargs):
-        # todo It's not a todo, it's more like a "Bravo". Your way if checking field updates is smarter than mine :D
+        # //todo It's not a todo, it's more like a "Bravo". Your way if checking field updates is smarter than mine :D
         if self.status == "D" and self.__original_status == "P":
             print("It is Done")
             for p in (self.products.all()):
@@ -73,10 +77,7 @@ class Order(models.Model):
 
         return super().save(force_insert=force_insert, force_update=force_update, *args, **kwargs)
 
-    # todo you've wrote "get_sum" here, but i don't see you using it anywhere
-    def get_sum(self):
 
-        sum = 0
-        for items in self.products.all():
-            sum = sum + items.price
-        return sum
+
+
+

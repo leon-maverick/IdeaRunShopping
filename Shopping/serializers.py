@@ -4,13 +4,6 @@ from .models import Product, Order, Category
 from rest_framework.validators import UniqueValidator
 
 
-#todo unused class
-class ProductListingField(serializers.RelatedField):
-    def to_representation(self, value):
-        return 'Product %s: %d (%s) [description: %s]' % (value.title,
-                                                          value.price, value.cat, value.description)
-
-
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
@@ -21,30 +14,31 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    # todo when sending product data, send the category (cat) as a json, not just id.
-    # i would want to see the category name alongside the product data
+    # //todo when sending product data, send the category (cat) as a json, not just id.
+    # //i would want to see the category name alongside the product data
+    cat = serializers.CharField(source='cat.title', read_only=True)
+
     class Meta:
         model = Product
         fields = ('title', 'cat', 'price', 'available', 'description', 'available', 'pic')
 
 
 class OrderSerializer(serializers.ModelSerializer):
-    # queryset = Product.objects.filter(available__gt=0)
-
-
-    # todo it's minor thing, but always put the class Meta before all the methods, then validators, then other methods
-    def validate(self, attr):
-        for p in attr['products']:
-            if p.available <= 0:
-                raise serializers.ValidationError(p.title + " is not available")
-        return attr
-
+    # //todo it's minor thing, but always put the class Meta before all the methods, then validators, then other methods
+    products = serializers.SlugRelatedField(many=True, read_only=True, slug_field='title')
+    status = serializers.CharField(source='get_status_display')
     class Meta:
         model = Order
         fields = ('date', 'products', 'status',)
         extra_kwargs = {
             'date': {'read_only': True},
         }
+
+    def validate(self, attr):
+        for p in attr['products']:
+            if p.available <= 0:
+                raise serializers.ValidationError(p.title + " is not available")
+        return attr
 
     def create(self, validated_data):
         validated_data['person'] = self.person
@@ -80,3 +74,4 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'username', 'email', 'password', 'first_name', 'last_name')
+

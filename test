@@ -1,6 +1,11 @@
 SIGN UP
 ==============================
-http POST 127.0.0.1:8000/shop/SignUp/ username='mehrnooshi' password='belah99belah' email='mehrnoosh@gmail.com' first_name='mehrnoosh' last_name='baratpoor'
+http POST 127.0.0.1:8000/shop/signup/ username='mehrnooshi' password='belah99belah' email='mehrnoosh@gmail.com' first_name='mehrnoosh' last_name='baratpoor'
+
+
+http POST 127.0.0.1:8000/shop/signup/ username='emadi' password='belah99belah' email='agharahi@gmail.com' first_name='hadi 'last_name='gharahi'
+
+
 
 
 LOGIN
@@ -27,7 +32,7 @@ http POST 127.0.0.1:8000/shop/MyOrders/  products = [] 'Authorization: Token 237
 
 SEE CATEGORY LISTS
 ==================================
-http GET  127.0.0.1:8000/shop/CatLists/ 
+http GET  127.0.0.1:8000/shop/category-lists/ 
 
 
 PRODUCTS OF SPECEFIC CATEGORY

@@ -33,6 +33,14 @@ def SearchProduct(request):
     return Response(serializer_class.data)
 
 
+class CatProductList(generics.ListAPIView):
+    def get(self, request):
+        query = request.data
+        queryset = Product.objects.filter(cat__title__contains=query['cat'])
+        serializer_class = ProductSerializer(queryset, many=True)
+        permission_classes = []
+
+'''
 @api_view(['GET'])
 def CatProductList(request):
     # todo bug in here
@@ -43,6 +51,7 @@ def CatProductList(request):
     permission_classes = []
     return Response(serializer_class.data)
 
+'''
 
 class CategoryList(generics.ListCreateAPIView):
     queryset = Category.objects.all()
@@ -58,13 +67,11 @@ class SignUpView(APIView):
         if serializer.is_valid():
             user = serializer.save()
             if user:
-                token = Token.objects.get_or_create(user=user)
+                token, created = Token.objects.get_or_create(user=user)
                 json = serializer.data
                 # todo bug in here. read about get_or_create to fix it
                 json['token'] = token.key
 
-                # todo always remove all "print" commands before committing
-                print(json['token'])
                 return Response(json, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
