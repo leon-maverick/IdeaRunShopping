@@ -16,42 +16,23 @@ from rest_framework.response import Response
 from django.views import generic
 
 
-@api_view(['GET'])
-def SearchProduct(request):
-    # todo i recommend to use generics classes for all views
-    # todo bug in here
-    query = request.data
-
-    # todo you need to put an error handling system here. What if user doesn't end a "title" key?
-    queryset = Product.objects.filter(title__contains=query['title'])
-    serializer_class = ProductSerializer(queryset, many=True)
-
-    # todo permission_classes attribute is for django rest view classes, but youre using it on normal django view function.
-    # this permission_classes are naturally ignored
-    permission_classes = []  # (permissions.IsAuthenticatedOrReadOnly)
-
-    return Response(serializer_class.data)
+class SearchProduct(generics.ListAPIView):
+    permission_classes = []
+    def get(self, request):
+        query = request.data
+        queryset = Product.objects.filter(title__contains=query['title'])
+        serializer_class = ProductSerializer(queryset, many=True)
+        return Response(serializer_class.data)
 
 
 class CatProductList(generics.ListAPIView):
+    permission_classes = []
     def get(self, request):
         query = request.data
         queryset = Product.objects.filter(cat__title__contains=query['cat'])
         serializer_class = ProductSerializer(queryset, many=True)
-        permission_classes = []
+        return Response(serializer_class.data)
 
-'''
-@api_view(['GET'])
-def CatProductList(request):
-    # todo bug in here
-    query = request.data
-
-    queryset = Product.objects.filter(cat__title__contains=query['cat'])
-    serializer_class = ProductSerializer(queryset, many=True)
-    permission_classes = []
-    return Response(serializer_class.data)
-
-'''
 
 class CategoryList(generics.ListCreateAPIView):
     queryset = Category.objects.all()

@@ -9,5 +9,5 @@ urlpatterns = [
     url(r'^signup/', views.SignUpView.as_view(), ),
     url(r'^category-lists/', views.CategoryList.as_view(), ),
     url(r'^category-product/', views.CatProductList.as_view(), ),
-    url(r'^search-product/', views.SearchProduct, ),
+    url(r'^search-product/', views.SearchProduct.as_view(), ),
 ]
