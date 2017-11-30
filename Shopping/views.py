@@ -1,46 +1,52 @@
+from django.shortcuts import render, get_object_or_404
+from Shopping.forms import UserForm, UserFormIn
 from .models import Product, Order, Category
 from .serializers import ProductSerializer, OrderSerializer, CategorySerializer
-from rest_framework.views import APIView
 from rest_framework import generics
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .serializers import UserSerializer
 from rest_framework import permissions
 from .permissions import IsOwnerOrReadOnly
-from django.contrib.auth.models import User
 from rest_framework.views import APIView
-from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authtoken.models import Token
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from django.views import generic
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from django.views.generic import View
 
 
-class SearchProduct(generics.ListAPIView):
+class ApiSearchProduct(generics.ListAPIView):
     permission_classes = []
     def get(self, request):
         query = request.data
-        queryset = Product.objects.filter(title__contains=query['title'])
-        serializer_class = ProductSerializer(queryset, many=True)
-        return Response(serializer_class.data)
+        if not 'title' in query:
+            return Response('No Data entry')
+        else:
+            queryset = Product.objects.filter(title__contains=query['title'])
+            serializer_class = ProductSerializer(queryset, many=True)
+            return Response(serializer_class.data)
 
 
-class CatProductList(generics.ListAPIView):
+
+class ApiCatProductList(generics.ListAPIView):
     permission_classes = []
     def get(self, request):
         query = request.data
-        queryset = Product.objects.filter(cat__title__contains=query['cat'])
-        serializer_class = ProductSerializer(queryset, many=True)
-        return Response(serializer_class.data)
+        if not 'cat' in query:
+            return Response('No Data entry')
+        else:
+            queryset = Product.objects.filter(cat__title__contains=query['cat'],)
+            serializer_class = ProductSerializer(queryset, many=True)
+            return Response(serializer_class.data)
 
 
-class CategoryList(generics.ListCreateAPIView):
+class ApiCategoryList(generics.ListCreateAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     permission_classes = []
 
 
-class SignUpView(APIView):
+class ApiSignUpView(APIView):
     permission_classes = []
 
     def post(self, request, format='json'):
@@ -58,13 +64,9 @@ class SignUpView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class MyOrdersUpdate(generic.UpdateView):
-    pass
-
-
-class MyOrderList(generics.ListCreateAPIView):
+class ApiMyOrderList(generics.ListCreateAPIView):
     serializer_class = OrderSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
 
     def get_queryset(self):
         return Order.objects.filter(person=self.request.user)
@@ -77,7 +79,93 @@ class MyOrderList(generics.ListCreateAPIView):
         super().perform_create(serializer)
 
 
-class ProductList(generics.ListCreateAPIView):
+class ApiProductList(generics.ListCreateAPIView):
+    """
+    get:
+    list of available products
+    """
     queryset = Product.objects.filter(available__gt=0)
     serializer_class = ProductSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+
+def Index (request):
+    return render(request, 'shopping/Index.html')
+
+def ProductList(request):
+    all_products = Product.objects.all()
+    return render (request, 'shopping/product.html', {'products': all_products})
+
+def ProductListDetail(request, pk):
+    product = get_object_or_404( Product,pk = pk)
+    return render(request, 'shopping/productdetail.html', {'product':product})
+
+
+class SignUp (View): # TODO password check
+    form_class = UserForm
+    template_name = 'shopping/signup.html'
+
+    # dispaly new form for register
+    def get(self, request):
+        form = self.form_class(None)
+        return render(request, self.template_name, {'form': form})
+
+    # process form data
+    def post(self, request):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)  # just store it normally
+            # clean and normalize data
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            email = form.cleaned_data['email']
+            first_name = form.cleaned_data['first_name']
+            last_name = form.cleaned_data['last_name']
+            user.set_password(password)
+
+            user.save()
+
+            # return user objects if credentials are correct
+            user = authenticate(username=username, password=password,
+                                first_name=first_name, last_name=last_name, email=email)
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    return redirect('shop:homepage')
+        return render(request, self.template_name, {'form': form})
+
+
+class SignIn (View):
+    form_class = UserFormIn
+    template_name = 'shopping/signin.html'
+
+    # dispaly new form for register
+    def get(self, request):
+        form = self.form_class(None)
+        return render(request, self.template_name, {'form': form})
+
+    # process form data
+    def post(self, request):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            # clean and normalize data
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+
+            # return user objects if credentials are correct
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    return redirect('shop:homepage')
+        return render(request, self.template_name, {'form': form})
+
+
+def search (request):
+    pass
+
+
+class LogOut (View):
+    pass
+
+

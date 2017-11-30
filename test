@@ -1,12 +1,12 @@
 SIGN UP
 ==============================
-http POST 127.0.0.1:8000/shop/signup/ username='mehrnooshi' password='belah99belah' email='mehrnoosh@gmail.com' first_name='mehrnoosh' last_name='baratpoor'
+http POST 127.0.0.1:8000/shop/api-signup/ username='mehrnooshi' password='belah99belah' email='mehrnoosh@gmail.com' first_name='mehrnoosh' last_name='baratpoor'
 
 
-http POST 127.0.0.1:8000/shop/signup/ username='emadiii' password='belah99belah' email='agharahiii@gmail.com' first_name='hadiii' last_name='gharahiii'
+http POST 127.0.0.1:8000/shop/api-signup/ username='emadiii' password='belah99belah' email='agharahiii@gmail.com' first_name='hadiii' last_name='gharahiii'
 
 
-http POST 127.0.0.1:8000/shop/signup/ username='tade' password='belah99belah' email='mr.alexani@gmail.com' first_name='tade' last_name='alexani'
+http POST 127.0.0.1:8000/shop/api-signup/ username='tade' password='belah99belah' email='mr.alexani@gmail.com' first_name='tade' last_name='alexani'
 
 
 LOGIN
@@ -20,29 +20,29 @@ http POST 127.0.0.1:8000/api-auth/  username='mehrnooshi' password='belah99belah
 
 PRODUCT LISTS
 ===========================
-http GET  127.0.0.1:8000/shop/product-lists/
+http GET  127.0.0.1:8000/shop/api-product-lists/
 
 
 GET ORDER LISTS OF SPECIFIC USER
 ==================================
-http GET  127.0.0.1:8000/shop/my-orders/  'Authorization: Token 2370f6fa698dc51e6eacec72f983bf6a083a9f39'
+http GET  127.0.0.1:8000/shop/api-my-orders/  'Authorization: Token 2370f6fa698dc51e6eacec72f983bf6a083a9f39'
 
 USER ORDERS PRODUCTS
 ==================================
-http POST 127.0.0.1:8000/shop/my-orders/  products = [] 'Authorization: Token 2370f6fa698dc51e6eacec72f983bf6a083a9f39'
+http POST 127.0.0.1:8000/shop/api-my-orders/  products = [] 'Authorization: Token 2370f6fa698dc51e6eacec72f983bf6a083a9f39'
 
 SEE CATEGORY LISTS
 ==================================
-http GET  127.0.0.1:8000/shop/category-lists/ 
+http GET  127.0.0.1:8000/shop/api-category-lists/ 
 
 
 PRODUCTS OF SPECEFIC CATEGORY
 ========================================
-http GET  127.0.0.1:8000/shop/category-product/ cat='Digital' 'Authorization: Token 2370f6fa698dc51e6eacec72f983bf6a083a9f39'
+http GET  127.0.0.1:8000/shop/api-category-product/ cat='Digital' 'Authorization: Token 2370f6fa698dc51e6eacec72f983bf6a083a9f39'
 
 SEARCH ON A PRODUCT NAME
 ============================================
-http GET  127.0.0.1:8000/shop/search-product/ title='Red' 'Authorization: Token 2370f6fa698dc51e6eacec72f983bf6a083a9f39'
+http GET  127.0.0.1:8000/shop/api-search-product/ title='Red' 'Authorization: Token 2370f6fa698dc51e6eacec72f983bf6a083a9f39'
 
 
 

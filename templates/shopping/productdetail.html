@@ -1,0 +1,9 @@
+
+{% extends 'shopping/base.html' %}
+{% block title %}{{ product.title }} {% endblock %}
+{% block body %}
+    <img src="{{ product.pic }}" >
+    <h1> {{ product.title }} in  {{ product.cat }}</h1>
+
+{% endblock %}
+

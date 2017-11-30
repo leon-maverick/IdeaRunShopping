@@ -1,0 +1,15 @@
+{% extends 'shopping/base.html' %}
+{% block body %}
+    {% if products %}
+        <h1>Here is all products</h1>
+        <ul>
+            {% for product in products %}
+            <li>
+                <a href="{% url 'shop:productdetail' product.id %}" >{{ product.title }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <h3>You dont have any albums</h3>
+    {% endif %}
+{% endblock %}

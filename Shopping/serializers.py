@@ -27,6 +27,7 @@ class OrderSerializer(serializers.ModelSerializer):
     # //todo it's minor thing, but always put the class Meta before all the methods, then validators, then other methods
     products = serializers.SlugRelatedField(many=True, read_only=True, slug_field='title')
     status = serializers.CharField(source='get_status_display')
+
     class Meta:
         model = Order
         fields = ('date', 'products', 'status',)
@@ -74,4 +75,3 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'username', 'email', 'password', 'first_name', 'last_name')
-

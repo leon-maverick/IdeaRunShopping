@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Maver!ck{% endblock %}</title>
+    <!-- load the path to your static files -->
+{% load staticfiles %}
+    <link rel="stylesheet"  href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" >
+    <link href="https://fonts.googleapis.com/css?family=Satisfy" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="{% static 'Shopping/style.css'%}" />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js" ></script>
+
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <!-- header -->
+            <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#topNavBar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">MaveR!cKk Store</a>
+            </div>
+        <!--- Items -->
+        <div class="collapse navbar-collapse" id="topNavBar">
+            <ul class="nav navbar-nav">
+                <li class="">
+                    <a href="{% url 'shop:homepage' %}">
+                        {% if request.user.is_authenticated %}Welcome '{{ request.user.username }}'
+                        {% else %}<a href="{% url 'shop:signin' %}">Sign In</a>{% endif %}
+                    </a>
+
+                    <!--a href="{% url 'shop:signin' %}">Sign In</a-->
+                </li>
+                <li class="">
+                    <!--a href="{% url 'shop:signup' %}">Sign Up</a-->
+                    <a href = "{% url 'shop:logout' %}" > 
+                        {% if request.user.is_authenticated %} Logout 
+                        {% else %} <a href="{% url 'shop:signup' %}">Sign Up</a>{% endif %}
+                    </a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right" >
+                <li >
+                    <a href="#">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>&nbsp;search</a>
+                </li>
+            </ul>    
+        </div>
+
+    </div>
+</nav>
+
+{% block body %}
+{% endblock %}
+
+</body>
+</html>

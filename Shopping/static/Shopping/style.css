@@ -1,0 +1,26 @@
+body{
+    background: white url("images/background.png");
+    color: white;
+
+}
+
+.navbar {
+    position: relative;
+    border-radius: 0;
+}
+
+.navbar-brand {
+  font-family: 'Satisfy', cursive;
+  transform: translateX(-50%);
+  left: 50%;
+  position: absolute;
+}
+
+#middle {
+    transform: translateX(-50%);
+    left: 50%;
+    top: 50%;
+    position: absolute;
+    text-align: center;
+
+}
