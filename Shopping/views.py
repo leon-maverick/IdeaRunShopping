@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from Shopping.forms import UserForm, UserFormIn
+from Shopping.forms import UserForm, UserFormIn, OrderForm, SearchForm
 from .models import Product, Order, Category
 from .serializers import ProductSerializer, OrderSerializer, CategorySerializer
 from rest_framework import generics
@@ -11,11 +11,11 @@ from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.views.generic import View
 
 
-class ApiSearchProduct(generics.ListAPIView):
+class ApiSearchProduct(generics.ListAPIView): #search on title of the products
     permission_classes = []
     def get(self, request):
         query = request.data
@@ -27,8 +27,7 @@ class ApiSearchProduct(generics.ListAPIView):
             return Response(serializer_class.data)
 
 
-
-class ApiCatProductList(generics.ListAPIView):
+class ApiCatProductList(generics.ListAPIView):# returns the products of searched category
     permission_classes = []
     def get(self, request):
         query = request.data
@@ -71,11 +70,16 @@ class ApiMyOrderList(generics.ListCreateAPIView):
     def get_queryset(self):
         return Order.objects.filter(person=self.request.user)
 
+
+
     def perform_create(self, serializer):
-        print(self.request.user)
+        #total_price = 0
+        #for p in (self.products.all()):
+        #    total_price = total_price + p.price
+
+        #serializer.total_price = total_price
         serializer.person = self.request.user
         serializer.status = "P"
-        # serializer.save(person=self.request.user, status="P")
         super().perform_create(serializer)
 
 
@@ -92,13 +96,24 @@ class ApiProductList(generics.ListCreateAPIView):
 def Index (request):
     return render(request, 'shopping/Index.html')
 
+
 def ProductList(request):
     all_products = Product.objects.all()
     return render (request, 'shopping/product.html', {'products': all_products})
 
+
 def ProductListDetail(request, pk):
     product = get_object_or_404( Product,pk = pk)
     return render(request, 'shopping/productdetail.html', {'product':product})
+
+
+def CategoryDetail(request, pk):
+    cat = get_object_or_404(Category, pk = pk)
+    print(cat)
+    print (cat.title)
+    product = Product.objects.filter(cat__title__contains = cat.title)
+    print(product)
+    return render(request, 'shopping/categorydetail.html',{'product':product})
 
 
 class SignUp (View): # TODO password check
@@ -161,11 +176,64 @@ class SignIn (View):
         return render(request, self.template_name, {'form': form})
 
 
-def search (request):
-    pass
+class search (View):
+    form_class = SearchForm
+    template_name = 'shopping/search.html'
+
+    def get (self, request):
+        products = []
+        form = self.form_class(None)
+        return render (request, self.template_name, { 'form' : form, 'products':products })
+
+    def post (self, request):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            category_title = form.cleaned_data['category_title']
+            product_title = form.cleaned_data['product_title']
+            if product_title:
+                products = Product.objects.filter(title__contains=product_title)
+            elif category_title:
+                products = Product.objects.filter(cat__title__contains= category_title)
+            elif category_title and product_title:
+                pass
+        return render (request, self.template_name, {'form':form, 'products':products})
 
 
-class LogOut (View):
-    pass
+def LogOut(request):
+    logout(request)
+    return render(request, 'shopping/Index.html')
+
+
+def Categories (request):
+    cats = Category.objects.all()
+    return render (request, 'shopping/Categories.html', {'cats':cats})
+
+
+class Orders(View):
+    form_class = OrderForm
+    template_name = 'shopping/myorders.html'
+
+    def get(self, request):
+        form = self.form_class(None)
+        orders = Order.objects.filter(person=request.user)
+        return render (request, self.template_name, {'orders':orders, 'form':form})
+
+    def post (self, request):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            # clean and normalize data
+            products = form.cleaned_data['products']
+            # TODO check products and add them in batch
+            order = Order.objects.create(person = request.user)
+
+            for p in products:
+                order.products.add(p)
+            order.save()
+            orders = Order.objects.filter(person=request.user)
+        return render(request, self.template_name, {'orders':orders ,'form': form})
+
+
+
+
 
 

@@ -1,0 +1,9 @@
+
+{% extends 'shopping/base.html' %}
+{% block title %}{{ product.title }} {% endblock %}
+{% block body %}
+    {% for p in product%}
+    <p> {{ p.cat }}: {{ p.title }} </p>
+    {% endfor %}
+{% endblock %}
+

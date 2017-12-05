@@ -1,0 +1,15 @@
+{% extends 'shopping/base.html' %}
+{% block body %}
+    {% if cats %}
+        <h1>Here is all Categories</h1>
+        <ul>
+            {% for cat in cats %}
+            <li>
+                <a href="{% url 'shop:categorydetail' cat.id%}" >{{ cat.title }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <h3>You dont have any catesgories</h3>
+    {% endif %}
+{% endblock %}

@@ -14,8 +14,6 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    # //todo when sending product data, send the category (cat) as a json, not just id.
-    # //i would want to see the category name alongside the product data
     cat = serializers.CharField(source='cat.title', read_only=True)
 
     class Meta:
@@ -24,13 +22,12 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class OrderSerializer(serializers.ModelSerializer):
-    # //todo it's minor thing, but always put the class Meta before all the methods, then validators, then other methods
     products = serializers.SlugRelatedField(many=True, read_only=True, slug_field='title')
     status = serializers.CharField(source='get_status_display')
 
     class Meta:
         model = Order
-        fields = ('date', 'products', 'status',)
+        fields = ('date', 'products', 'status','total_price')
         extra_kwargs = {
             'date': {'read_only': True},
         }
@@ -44,7 +41,6 @@ class OrderSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         validated_data['person'] = self.person
         validated_data['status'] = self.status
-        print(validated_data)
         return super().create(validated_data)
 
 
@@ -64,8 +60,6 @@ class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = User.objects.create_user(validated_data['username'], validated_data['email'],
                                         validated_data['password'], )
-        print(validated_data)
-        print(validated_data['first_name'])
 
         user.first_name = validated_data['first_name']
         user.last_name = validated_data['last_name']

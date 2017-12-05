@@ -4,7 +4,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 from django.conf import settings
-
+from django.db.models import Sum
 
 # This code is triggered whenever a new user has been created and saved to the database
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
@@ -42,6 +42,7 @@ class Product(models.Model):
     def cat_title(self):
         return self.cat.title
 
+
 class Order(models.Model):
     STAT = (("P", "Pending"),
             ("D", "Done"),
@@ -51,26 +52,26 @@ class Order(models.Model):
     person = models.ForeignKey('auth.User', related_name='orders', )
     date = models.DateField(auto_now_add=True)
     products = models.ManyToManyField(Product)  # TODO a reD MANY TO MANAY DOC ANF ITS TABLE
-    status = models.CharField(max_length=1, choices=STAT, default='P')
+    status = models.CharField(max_length=1, choices=STAT, default='P',)
+    total_price = models.IntegerField(default=0)
 
-    def __str__(self):
-        # //todo it's better to show the status word (e.g. Pending) instead of the key. It'll be much more readable
-        return str(self.person.username) + " " + self.status.title()
 
     def __init__(self, *args, **kwargs):
         super(Order, self).__init__(*args, **kwargs)
         self.__original_status = self.status
 
     def save(self, force_insert=False, force_update=False, *args, **kwargs):
-        # //todo It's not a todo, it's more like a "Bravo". Your way if checking field updates is smarter than mine :D
+        # if self.id:
+        #     for p in (self.products.all()):
+        #         self.total_price = self.total_price + p.price
+        #     super(Order, self).save(*args, **kwargs)
+
         if self.status == "D" and self.__original_status == "P":
-            print("It is Done")
             for p in (self.products.all()):
                 p.available = p.available - 1
                 p.save()
 
         elif self.status == "C" and self.__original_status == "D":
-            print("Canceled")
             for p in (self.products.all()):
                 p.available = p.available + 1
                 p.save()

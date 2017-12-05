@@ -28,24 +28,30 @@
         <div class="collapse navbar-collapse" id="topNavBar">
             <ul class="nav navbar-nav">
                 <li class="">
-                    <a href="{% url 'shop:homepage' %}">
-                        {% if request.user.is_authenticated %}Welcome '{{ request.user.username }}'
+                    {% if request.user.is_authenticated %}Welcome '{{ request.user.username }}'
+                        <a href="{% url 'shop:homepage' %}"></a>
                         {% else %}<a href="{% url 'shop:signin' %}">Sign In</a>{% endif %}
-                    </a>
+                </li>
 
-                    <!--a href="{% url 'shop:signin' %}">Sign In</a-->
-                </li>
+                {% if request.user.is_authenticated %}
                 <li class="">
-                    <!--a href="{% url 'shop:signup' %}">Sign Up</a-->
-                    <a href = "{% url 'shop:logout' %}" > 
-                        {% if request.user.is_authenticated %} Logout 
-                        {% else %} <a href="{% url 'shop:signup' %}">Sign Up</a>{% endif %}
-                    </a>
+                    <a href="{% url 'shop:myorders' %}">My Orders</a>
                 </li>
+                {% endif %}
+                
+                <li class="">
+                    {% if request.user.is_authenticated %}
+                    <a href = "{% url 'shop:logout' %}" >Logout</a>
+                    {% else %}<a href="{% url 'shop:signup' %}">Sign Up</a>
+                    {% endif %}
+                </li>
+                
+                <li><a href="{% url 'shop:categories' %}">Categories</a></li>
+
             </ul>
             <ul class="nav navbar-nav navbar-right" >
                 <li >
-                    <a href="#">
+                    <a href="{% url 'shop:search' %}">
                         <span class="glyphicon glyphicon-search" aria-hidden="true"></span>&nbsp;search</a>
                 </li>
             </ul>    
