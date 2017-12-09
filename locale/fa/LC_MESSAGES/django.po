@@ -1,0 +1,196 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-12-09 15:49+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: IdeaRunShopping/settings.py:122
+msgid "Persian"
+msgstr "پارسی"
+
+#: Shopping/admin.py:16
+msgid "price range"
+msgstr "بازه ی قیمت"
+
+#: Shopping/admin.py:30
+msgid "Less than 20000"
+msgstr "کمتر از بیست هزار تومان"
+
+#: Shopping/admin.py:31
+msgid "Btween 20000 and 50000"
+msgstr "بین بیست تا پنجاه هزار تومان"
+
+#: Shopping/admin.py:32
+msgid "More than 50000"
+msgstr "بیش از پنجاه هزار تومان"
+
+#: Shopping/forms.py:6 Shopping/forms.py:13
+msgid "password"
+msgstr "رمز ورود"
+
+#: Shopping/forms.py:12
+msgid "username"
+msgstr "نام کاربری"
+
+#: Shopping/forms.py:17
+msgid "products"
+msgstr "محصولات"
+
+#: Shopping/forms.py:20 Shopping/models.py:21 Shopping/models.py:39
+msgid "Category"
+msgstr "دسته بندی"
+
+#: Shopping/forms.py:21 Shopping/models.py:43
+msgid "Product"
+msgstr "محصول"
+
+#: Shopping/models.py:18
+msgid "title of related category"
+msgstr "نام دسته"
+
+#: Shopping/models.py:19 Shopping/models.py:31
+msgid "sold price"
+msgstr "قیمت فروخته شده"
+
+#: Shopping/models.py:22 templates/shopping/base.html:33
+msgid "Categories"
+msgstr "دسته بندی ها"
+
+#: Shopping/models.py:29
+msgid "title"
+msgstr "نام"
+
+#: Shopping/models.py:30
+msgid "price"
+msgstr "قیمت"
+
+#: Shopping/models.py:33
+msgid "description"
+msgstr "توضیحات"
+
+#: Shopping/models.py:37
+msgid "picture"
+msgstr "نمایه"
+
+#: Shopping/models.py:40
+msgid "Available"
+msgstr "موجودی"
+
+#: Shopping/models.py:44
+msgid "Products"
+msgstr "محصولات"
+
+#: Shopping/models.py:61
+msgid "Not available product"
+msgstr "محصول ناموجود"
+
+#: Shopping/models.py:62
+msgid "Not available products"
+msgstr "محصولات ناموجود"
+
+#: Shopping/models.py:76
+msgid "Ordered person"
+msgstr "فرد سفارش دهنده"
+
+#: Shopping/models.py:77
+msgid "Date"
+msgstr "تاریخ"
+
+#: Shopping/models.py:78
+msgid "orders products"
+msgstr "محصولات سفارش"
+
+#: Shopping/models.py:79
+msgid "Order status"
+msgstr "وضعیت سفارش"
+
+#: Shopping/models.py:80
+msgid "Order Price"
+msgstr "هزینه کل"
+
+#: Shopping/models.py:83
+msgid "Order"
+msgstr "سفارش"
+
+#: Shopping/models.py:84
+msgid "Orders"
+msgstr "سفارشات"
+
+#: Shopping/rangevaluesfilterspec.py:25
+msgid "All"
+msgstr "همه"
+
+#: templates/shopping/base.html:28
+msgid "Welcome "
+msgstr "خوش آمدید"
+
+#: templates/shopping/base.html:29
+msgid "Sign In"
+msgstr "ورود"
+
+#: templates/shopping/base.html:30
+msgid "My Orders"
+msgstr "سفارشات من"
+
+#: templates/shopping/base.html:31
+msgid "Logout"
+msgstr "خروج"
+
+#: templates/shopping/base.html:32
+msgid "Sign Up"
+msgstr "ثبت نام"
+
+#: templates/shopping/base.html:34
+msgid "search"
+msgstr "جست و جو"
+
+#: templates/shopping/base.html:35
+msgid "Register"
+msgstr "ثبت نام"
+
+#: templates/shopping/base.html:36
+msgid "Here is all Categories"
+msgstr "تمامی دسته بندی ها"
+
+#: templates/shopping/base.html:37
+msgid "There is no Category"
+msgstr "هیچ دسته بندی ای موجود نیست"
+
+#: templates/shopping/base.html:38
+msgid "Welcome to Maverick Store"
+msgstr "به فروشگاه مجازی ما خوش آمدید"
+
+#: templates/shopping/base.html:39
+msgid "Lets Shop"
+msgstr "خرید"
+
+#: templates/shopping/product.html:5
+msgid "Here is all products"
+msgstr "تمامی محصولات"
+
+#: templates/shopping/product.html:6
+msgid "You dont have any products"
+msgstr "هیچ محصولی موجود نیست"
+
+#~ msgid "email"
+#~ msgstr "ایمیل"
+
+#~ msgid "first_name"
+#~ msgstr "نام"
+
+#~ msgid "last_name"
+#~ msgstr "نام خانوادگی"

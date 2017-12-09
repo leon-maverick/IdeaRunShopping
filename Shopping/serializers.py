@@ -22,8 +22,9 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class OrderSerializer(serializers.ModelSerializer):
-    products = serializers.SlugRelatedField(many=True, read_only=True, slug_field='title')
-    status = serializers.CharField(source='get_status_display')
+    # products_names = serializers.SlugRelatedField(many=True, read_only=True, slug_field='title')
+    products = serializers.PrimaryKeyRelatedField(queryset=Product.objects.all(), many=True)
+    # status = serializers.CharField(source='get_status_display')
 
     class Meta:
         model = Order
@@ -38,10 +39,17 @@ class OrderSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError(p.title + " is not available")
         return attr
 
-    def create(self, validated_data):
+    def create(self, validated_data, ):
         validated_data['person'] = self.person
         validated_data['status'] = self.status
-        return super().create(validated_data)
+
+        price = 0
+        for p in validated_data.get('products') :
+            price = price + p.price
+        validated_data['total_price'] = price
+        order = super().create(validated_data)
+
+        return order
 
 
 class UserSerializer(serializers.ModelSerializer):

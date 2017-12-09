@@ -1,7 +1,7 @@
 {% extends 'shopping/base.html' %}
 {% block body %}
     {% if cats %}
-        <h1>Here is all Categories</h1>
+        <h1>{{ allcat }}</h1>
         <ul>
             {% for cat in cats %}
             <li>
@@ -10,6 +10,6 @@
             {% endfor %}
         </ul>
     {% else %}
-        <h3>You dont have any catesgories</h3>
+        <h3>{{ NoCat }}</h3>
     {% endif %}
 {% endblock %}

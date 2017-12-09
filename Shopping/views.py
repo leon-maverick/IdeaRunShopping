@@ -70,17 +70,11 @@ class ApiMyOrderList(generics.ListCreateAPIView):
     def get_queryset(self):
         return Order.objects.filter(person=self.request.user)
 
-
-
     def perform_create(self, serializer):
-        #total_price = 0
-        #for p in (self.products.all()):
-        #    total_price = total_price + p.price
 
-        #serializer.total_price = total_price
         serializer.person = self.request.user
         serializer.status = "P"
-        super().perform_create(serializer)
+        super().perform_create(serializer,)
 
 
 class ApiProductList(generics.ListCreateAPIView):

@@ -1,7 +1,13 @@
 {% extends 'shopping/base.html' %}
+{% load i18n %}
+
 {% block body %}
+{% trans 'Here is all products' as allpro %}
+{% trans 'You dont have any products' as donthavepro %}
+
+
     {% if products %}
-        <h1>Here is all products</h1>
+        <h1>{{ allpro }}</h1>
         <ul>
             {% for product in products %}
             <li>
@@ -10,6 +16,6 @@
             {% endfor %}
         </ul>
     {% else %}
-        <h3>You dont have any products</h3>
+        <h3>{{ donthavepro }}</h3>
     {% endif %}
 {% endblock %}
