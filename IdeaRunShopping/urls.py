@@ -2,9 +2,9 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from rest_framework.authtoken import views
 from rest_framework.schemas import get_schema_view
-from django.conf.urls.i18n import i18n_patterns
-# from Shopping.views import home, home_files
-
+# from django.conf.urls.i18n import i18n_patterns
+from django.conf import settings
+from django.conf.urls.static import static
 
 app_name = 'Shopping'
 
@@ -18,7 +18,8 @@ urlpatterns = [
     url('^$', schema_view),
     url(r'^admin/', admin.site.urls),
     url(r'^shop/', include('Shopping.urls')),
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)\
+              + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 # urlpatterns += i18n_patterns(
 #

@@ -1,18 +1,21 @@
 body{
-    background: white url("images/background.png");
-    color: white;
+    /*background: white; url("images/background.png");*/
+    color: #333;
 
 }
 
 .navbar {
     position: relative;
     border-radius: 0;
+    height: 50px;
+    margin: 1px 1px 20px 1px;
 }
 
 .navbar-brand {
   font-family: 'Satisfy', cursive;
   transform: translateX(-50%);
   left: 50%;
+  top: 15%;
   position: absolute;
 }
 
@@ -24,3 +27,33 @@ body{
     text-align: center;
 
 }
+.navmiddle{
+    height:30px ;
+}
+
+
+
+.search-box{
+    width: 200px;
+    text-align: right;
+}
+
+.product-parent-container {
+    padding: 15px;
+}
+
+.product-container{
+    padding: 15px;
+    background: #ffffe0;
+    box-shadow: #ccc 2px 2px 5px;
+
+}
+
+.order-container{
+
+    padding: 10px;
+    background: #eeeeee;
+    box-shadow: #ccc 2px 2px 5px;
+    margin: 20px 20px 20px 200px;
+}
+

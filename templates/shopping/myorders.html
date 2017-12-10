@@ -1,23 +1,40 @@
 {% extends 'shopping/base.html' %}
-{% block title  %}My Orders{% endblock %}
+{% block title %}My Orders{% endblock %}
+{% load staticfiles %}
 {% block body %}
+
     {% for order in orders %}
-        <p> {{ order.date }}</p>
-        {% for p in order.products.all %}
-        <p> {{ p.title }} {{ order.get_status_display }}</p>
-        {% endfor %}
+        <div class="col-md-8 offset-md-2 row order-container ">
+            <div class=" col-md-6 ">
+                <p style="background: whitesmoke"> {{ Date }}: {{ order.date }}</p>
+            </div>
+            <div class=" col-md-6">
+                <p> {{ OrderedPerson }}: {{ order.person.username }}</p>
+            </div>
+            <div class="col-md-8 offset-md-0" >
+                {% for p in order.products.all %}
+                    <li> <a href="{% url 'shop:productdetail' p.id %}"> {{ p.title }}</a>: {{ p.price }} </li>
+                {% endfor %}
+            </div>
+            <div class="col-md-6" >
+                <div > {{ total_price }}: {{ order.total_price }}</div>
+            </div>
+            <div class="col-md-6" >
+                <p> {{ status }}: {{ order.get_status_display }}</p>
+            </div>
+        </div>
     {% endfor %}
-    
+
     <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {% include 'shopping/form-template.html' %}
-        <div class="form-group">
+        <div class="form-inline">
             <div class="col-sm-offset-2 col-sm-10">
                 <button type="submit" class="btn btn-success">Submit</button>
             </div>
         </div>
     </form>
-                    
 
-{% endblock%}
+
+{% endblock %}
 

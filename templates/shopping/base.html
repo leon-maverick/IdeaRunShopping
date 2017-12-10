@@ -4,73 +4,99 @@
     <meta charset="UTF-8">
     <title>{% block title %}Maver!ck{% endblock %}</title>
     <!-- load the path to your static files -->
-{% load i18n %}
-{% load staticfiles %}
-    <link rel="stylesheet"  href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" >
-    <link href="https://fonts.googleapis.com/css?family=Satisfy" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" type="text/css" href="{% static 'Shopping/style.css'%}" />
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js" ></script>
+    {% load i18n %}
+    {% load staticfiles %}
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+          integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+          crossorigin="anonymous">
 
+
+    <link href="https://fonts.googleapis.com/css?family=Satisfy" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="{% static 'Shopping/style.css' %}"/>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+            integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+            integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+            crossorigin="anonymous"></script>
 </head>
 <body>
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-        <!-- header -->
-            <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#topNavBar">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">MaveR!cKk Store</a>
-            </div>
-        {% trans 'Welcome '  as Welcome %}
+{% trans 'Welcome ' as Welcome %}
         {% trans 'Sign In' as SignIn %}
         {% trans 'My Orders' as MyOrders %}
         {% trans 'Logout' as Logout %}
         {% trans 'Sign Up' as SignUp %}
         {% trans 'Categories' as Categories %}
+        {% trans 'Category' as Category %}
         {% trans 'search' as search %}
         {% trans 'Register' as Register %}
         {% trans 'Here is all Categories' as allcat %}
         {% trans 'There is no Category' as NoCat %}
         {% trans 'Welcome to Maverick Store' as WelcomeBanner %}
         {% trans 'Lets Shop' as LetShop %}
+        {% trans 'Price' as price %}
+        {% trans 'Available' as available %}
+        {% trans 'Ordered Person' as OrderedPerson %}
+        {% trans 'Date' as Date %}
+        {% trans 'Status' as status %}
+        {% trans 'Total Price' as total_price %}
+
+
+<nav class="navbar navbar-expand-sm navbar-light bg-faded navbar-dark bg-dark">
+    <div class="container-fluid">
+        <!-- header -->
+        <div class="navbar-brand">
+            <button type="button" class="navbar-toggler" data-toggle="collapse"
+                    data-target="#topNavBar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">MaveR!cKk Store</a>
+        </div>
+
         <!--- Items -->
         <div class="collapse navbar-collapse" id="topNavBar">
-            <ul class="nav navbar-nav">
-                <li class="">
+            <ul class=" navbar navbar-nav">
+                <li class="nav-item  navmiddle">
                     {% if request.user.is_authenticated %}
-                        <a href="{% url 'shop:homepage' %}">{{ Welcome}}{{ request.user.username }}</a>
-                        {% else %}<a href="{% url 'shop:signin' %}">{{ SignIn }}</a>
+                        <a class="nav-link  navmiddle" style="height: 50%" href="{% url 'shop:homepage' %}">
+                            {{ Welcome }}
+                            {{ request.user.username }}</a>
+                    {% else %}<a class="nav-link  navmiddle" href="{% url 'shop:signin' %}">{{ SignIn }}</a>
                     {% endif %}
                 </li>
 
                 {% if request.user.is_authenticated %}
-                <li class="">
-                    <a href="{% url 'shop:myorders' %}">{{ MyOrders }}</a>
-                </li>
+                    <li class="nav-item  navmiddle">
+                        <a class="nav-link navmiddle"  href="{% url 'shop:myorders' %}">{{ MyOrders }}</a>
+                    </li>
                 {% endif %}
-                
-                <li class="">
+
+                <li class="nav-item">
                     {% if request.user.is_authenticated %}
-                    <a href = "{% url 'shop:logout' %}" >{{ Logout }}</a>
-                    {% else %}<a href="{% url 'shop:signup' %}">{{ SignUp }}</a>
+                        <a class="nav-link  navmiddle" href="{% url 'shop:logout' %}">{{ Logout }}</a>
+                    {% else %}<a class="nav-link  navmiddle" href="{% url 'shop:signup' %}">{{ SignUp }}</a>
                     {% endif %}
                 </li>
-                
-                <li><a href="{% url 'shop:categories' %}">{{ Categories }}</a></li>
-
+                <li><a class="nav-link  navmiddle" href="{% url 'shop:categories' %}">{{ Categories }}</a></li>
             </ul>
-            <ul class="nav navbar-nav navbar-right" >
-                <li >
-                    <a href="{% url 'shop:search' %}">
-                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>&nbsp;{{ search }}</a>
-                </li>
-            </ul>    
-        </div>
 
+        <div class="search-box collapse navbar-collapse justify-content-end" id="navbarCollapse">
+  <ul class="navbar-nav ">
+    <li class="nav-item search-box">
+      <a class="nav-link" href="{% url 'shop:search' %}"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>&nbsp;{{ search }}</a>
+    </li>
+  </ul>
+</div>
+        </div>
     </div>
 </nav>
 

@@ -2,20 +2,39 @@
 {% load i18n %}
 
 {% block body %}
-{% trans 'Here is all products' as allpro %}
-{% trans 'You dont have any products' as donthavepro %}
-
+    {% trans 'Here is all products' as allpro %}
+    {% trans 'You dont have any products' as donthavepro %}
+    {% load staticfiles %}
 
     {% if products %}
-        <h1>{{ allpro }}</h1>
-        <ul>
+        <h1 class="text-center alert alert-dark col-md-10 offset-md-1">{{ allpro }}</h1>
+
+        <div class="col-md-12 row products-container">
             {% for product in products %}
-            <li>
-                <a href="{% url 'shop:productdetail' product.id %}" >{{ product.title }}</a>
-            </li>
+                <div class="col-md-3 product-parent-container">
+                        <div class="col-md-12 product-container">
+                        <a href="{% url 'shop:productdetail' product.id %}">
+                            <div class="image-container">
+                                {% if product.pic %}
+                                    <img class="col-md-12 row" src="{{ product.pic.url }}">
+                                {% else %}
+                                    <img class="col-md-12 row" src="{% static 'Shopping/red_apple.jpg' %}">
+                                {% endif %}
+                            </div>
+                            <p class="alert alert-light text-center col-md-12">{{ product.title }}</p>
+                         </a>
+                            <p class="text-center col-md-12">{{ price }}: <b>{{ product.price }}</b></p>
+                        </div>
+
+                </div>
             {% endfor %}
-        </ul>
+        </div>
     {% else %}
         <h3>{{ donthavepro }}</h3>
     {% endif %}
+    <script>
+        $(document).ready(function () {
+            $('.image-container').height($('.image-container').width());
+        });
+    </script>
 {% endblock %}

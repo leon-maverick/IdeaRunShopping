@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-09 15:49+0000\n"
+"POT-Creation-Date: 2017-12-10 13:28+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,17 +26,21 @@ msgstr "پارسی"
 msgid "price range"
 msgstr "بازه ی قیمت"
 
-#: Shopping/admin.py:30
+#: Shopping/admin.py:29 Shopping/admin.py:57
 msgid "Less than 20000"
 msgstr "کمتر از بیست هزار تومان"
 
-#: Shopping/admin.py:31
+#: Shopping/admin.py:30 Shopping/admin.py:58
 msgid "Btween 20000 and 50000"
 msgstr "بین بیست تا پنجاه هزار تومان"
 
-#: Shopping/admin.py:32
+#: Shopping/admin.py:31 Shopping/admin.py:59
 msgid "More than 50000"
 msgstr "بیش از پنجاه هزار تومان"
+
+#: Shopping/admin.py:52
+msgid "total price range"
+msgstr "بازه ی قیمت"
 
 #: Shopping/forms.py:6 Shopping/forms.py:13
 msgid "password"
@@ -66,7 +70,7 @@ msgstr "نام دسته"
 msgid "sold price"
 msgstr "قیمت فروخته شده"
 
-#: Shopping/models.py:22 templates/shopping/base.html:33
+#: Shopping/models.py:22 templates/shopping/base.html:45
 msgid "Categories"
 msgstr "دسته بندی ها"
 
@@ -134,49 +138,53 @@ msgstr "سفارشات"
 msgid "All"
 msgstr "همه"
 
-#: templates/shopping/base.html:28
+#: templates/shopping/base.html:40
 msgid "Welcome "
 msgstr "خوش آمدید"
 
-#: templates/shopping/base.html:29
+#: templates/shopping/base.html:41
 msgid "Sign In"
 msgstr "ورود"
 
-#: templates/shopping/base.html:30
+#: templates/shopping/base.html:42
 msgid "My Orders"
 msgstr "سفارشات من"
 
-#: templates/shopping/base.html:31
+#: templates/shopping/base.html:43
 msgid "Logout"
 msgstr "خروج"
 
-#: templates/shopping/base.html:32
+#: templates/shopping/base.html:44
 msgid "Sign Up"
 msgstr "ثبت نام"
 
-#: templates/shopping/base.html:34
+#: templates/shopping/base.html:46
 msgid "search"
 msgstr "جست و جو"
 
-#: templates/shopping/base.html:35
+#: templates/shopping/base.html:47
 msgid "Register"
 msgstr "ثبت نام"
 
-#: templates/shopping/base.html:36
+#: templates/shopping/base.html:48
 msgid "Here is all Categories"
 msgstr "تمامی دسته بندی ها"
 
-#: templates/shopping/base.html:37
+#: templates/shopping/base.html:49
 msgid "There is no Category"
 msgstr "هیچ دسته بندی ای موجود نیست"
 
-#: templates/shopping/base.html:38
+#: templates/shopping/base.html:50
 msgid "Welcome to Maverick Store"
 msgstr "به فروشگاه مجازی ما خوش آمدید"
 
-#: templates/shopping/base.html:39
+#: templates/shopping/base.html:51
 msgid "Lets Shop"
 msgstr "خرید"
+
+#: templates/shopping/base.html:52
+msgid "Price"
+msgstr "قیمت"
 
 #: templates/shopping/product.html:5
 msgid "Here is all products"

@@ -98,3 +98,6 @@ admin.site.register(Product, ProductAdmin)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(NotAvPro)
+
+
+# TODO when I use action to done the order it doesnt affect sold price but when I change it indivdualy it's ok
