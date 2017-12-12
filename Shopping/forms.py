@@ -15,7 +15,9 @@ class UserFormIn ( forms.Form ):
 
 class OrderForm (forms.ModelForm):
     # TODO multi choose from available products
-    products = forms.CharField(label=_('products'))
+    # products = forms.CharField(label=_('products'))
+    products = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple(), queryset= Product.objects.filter(available__gt=0))
+
     class Meta:
         model = Order
         fields=['products', ]

@@ -220,9 +220,10 @@ class Orders(View):
             # TODO check products and add them in batch
             order = Order.objects.create(person = request.user)
             order.total_price = 0
+            print(products)
             for p in products:
                 order.products.add(p)
-                order.total_price = order.total_price + Product.objects.filter(title__contains=p)[0].price #TODO we will have problems with same name products
+                order.total_price = order.total_price + p.price #Product.objects.filter(title__contains=p)[0].price #TODO we will have problems with same name products
             order.save()
             orders = Order.objects.filter(person=request.user)
 
