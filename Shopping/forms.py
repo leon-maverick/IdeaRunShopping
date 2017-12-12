@@ -25,8 +25,7 @@ class OrderForm (forms.ModelForm):
     def save(self, commit=True):
         order = super(OrderForm, self).save(commit=False)
         for p in (order.products.all()):
-            order.total_price = order.total_price + p.price
-        print("hereeee")
+            order.total_price = order.total_price + p.pricex
         print(order.total_price)
         order.save()
 

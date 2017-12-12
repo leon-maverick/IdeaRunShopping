@@ -8,7 +8,7 @@ from django.conf.urls.static import static
 
 app_name = 'Shopping'
 
-schema_view = get_schema_view(title="Server Monitoring API",permission_classes=[])
+schema_view = get_schema_view(title="Server Monitoring API", permission_classes=[])
 
 urlpatterns = [
     # url(r'^(?P<filename>(robots.txt)|(humans.txt))$', home_files, name='home-files'),

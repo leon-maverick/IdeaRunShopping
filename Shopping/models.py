@@ -36,7 +36,7 @@ class Product(models.Model):
     # using full words increases code readability
     pic = models.FileField(blank=True, verbose_name=_('picture'))
     # //todo we should always define the "related_name" for relational fields (fk, m2m).
-    cat = models.ForeignKey(Category, related_name='category', verbose_name=_('Category'))
+    cat = models.ForeignKey(Category, related_name='category', verbose_name=_('Category'), on_delete= models.CASCADE)
     available = models.IntegerField(verbose_name=_('Available'))
 
     class Meta:
@@ -73,7 +73,7 @@ class Order(models.Model):
             ("C", "Cancel"),
             ("H", "Handeling"))
 
-    person = models.ForeignKey('auth.User', related_name='orders', verbose_name=_('Ordered person') )
+    person = models.ForeignKey('auth.User', related_name='orders', verbose_name=_('Ordered person') , on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True, verbose_name=_('Date'))
     products = models.ManyToManyField(Product, verbose_name=_('orders products'))  # TODO a reD MANY TO MANAY DOC ANF ITS TABLE
     status = models.CharField(max_length=1, choices=STAT, default='P',verbose_name=_('Order status'))

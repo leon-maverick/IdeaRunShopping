@@ -2,6 +2,6 @@
 {% block body %}
 <div style="font-size: 50px; font-family: 'Satisfy', cursive;"  id="middle" >
     <p >{{ WelcomeBanner }}</p>
-    <a href="{% url 'shop:productlist' %}" >{{ LetShop }}</a>
+    <a href="{% url 'shop:productlist' 0  %}" >{{ LetShop }}</a>
 </div>
 {% endblock %}

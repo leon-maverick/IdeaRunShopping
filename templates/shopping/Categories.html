@@ -5,7 +5,7 @@
         <ul>
             {% for cat in cats %}
             <li>
-                <a href="{% url 'shop:categorydetail' cat.id%}" >{{ cat.title }}</a>
+                <a href="{% url 'shop:productlist' cat.id%}" >{{ cat.title }}</a>
             </li>
             {% endfor %}
         </ul>

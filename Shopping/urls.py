@@ -12,7 +12,7 @@ urlpatterns = [
     url(r'^api-search-product/', views.ApiSearchProduct.as_view(), ),
 
     url(r'^home', views.Index, name='homepage', ),
-    url(r'^product-lists/', views.ProductList, name='productlist', ),
+    url(r'^product-lists/(?P<pk>[0-9]+)/', views.ProductList.as_view(), name='productlist', ),
     url(r'^product-lists-detail/(?P<pk>[0-9]+)/', views.ProductListDetail,name='productdetail', ),
     url(r'^category-detail/(?P<pk>[0-9]+)/', views.CategoryDetail,name='categorydetail', ),
     url(r'^signup/', views.SignUp.as_view(), name='signup', ),

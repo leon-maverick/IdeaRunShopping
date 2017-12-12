@@ -91,9 +91,17 @@ def Index (request):
     return render(request, 'shopping/Index.html')
 
 
-def ProductList(request):
-    all_products = Product.objects.all()
-    return render (request, 'shopping/product.html', {'products': all_products})
+class ProductList(View):
+
+    def get(self, request, pk):
+        if pk == '0':
+            all_products = Product.objects.all()
+            return render (request, 'shopping/product.html', {'products': all_products})
+
+        elif pk!=0:
+            all_products = Product.objects.filter(cat_id = pk)
+            cat = get_object_or_404(Category, pk=pk)
+            return render(request, 'shopping/product.html', {'products': all_products, 'catcat':cat.title})
 
 
 def ProductListDetail(request, pk):
@@ -206,7 +214,6 @@ def Categories (request):
 class Orders(View):
     form_class = OrderForm
     template_name = 'shopping/myorders.html'
-
     def get(self, request):
         form = self.form_class(None)
         orders = Order.objects.filter(person=request.user)
@@ -217,20 +224,14 @@ class Orders(View):
         if form.is_valid():
             # clean and normalize data
             products = form.cleaned_data['products']
-            # TODO check products and add them in batch
             order = Order.objects.create(person = request.user)
             order.total_price = 0
             print(products)
             for p in products:
                 order.products.add(p)
-                order.total_price = order.total_price + p.price #Product.objects.filter(title__contains=p)[0].price #TODO we will have problems with same name products
+                order.total_price = order.total_price + p.price
             order.save()
             orders = Order.objects.filter(person=request.user)
 
         return render(request, self.template_name, {'orders':orders ,'form': form})
-
-
-
-
-
 
